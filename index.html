@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ESRD Payment</title>
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="logo.png" type="image/png">
+  <header>
+     <img src="logo.png" alt="Website Logo" class="logo">
+  </header>
+  <style>
+        @font-face {
+  font-family: 'gff';
+  src: url('font.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+    body {
+      font-family: 'gff', sans-serif;
+      background: linear-gradient(to right, #fff, #fff);
+      margin: 0;
+      padding: 0;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .form-wrapper {
+      background-color: #fff;
+      border-radius: 20px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+      padding: 30px 40px;
+      max-width: 320px;
+      width: 100%;
+    }
+
+    h2 {
+      color: #000000;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    input, textarea {
+      font-family: 'gff', sans-serif;
+      width: 100%;
+      max-width: 290px;
+      padding: 10px 14px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+
+    button {
+      font-family: 'gff', sans-serif;
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      background-color: #000000;
+      color: white;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .popup {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #000000;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 10px;
+      display: none;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+
+    .hidden { display: none; }
+    
+        .logo {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 50px; /* Adjust size */
+    height: auto;
+    margin-bottom: 20px;
+    }
+    
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: #333;
+      margin-top: 25px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="popup" id="popup">Payment request submitted!</div>
+
+  <div class="form-wrapper">
+    <div id="codeSection">
+      <h2>Enter Access Code</h2>
+      <input type="text" id="codeInput" placeholder="Enter The Code" required />
+      <button onclick="validateCode()">Check Code</button>
+      <p id="codeMsg" style="color:red; text-align:center; margin-top:10px;"></p>
+    </div>
+
+    <div id="preForm" class="hidden">
+      <h2>Details</h2>
+      <p>Total Amount: BDT <span id="totalAmount"></span></p>
+      <p>Service Charge (-5%): BDT <span id="chargeAmount"></span></p>
+      <p>Receivable: BDT <span id="payableAmount"></span></p>
+      <button onclick="showForm()">Proceed</button>
+    </div>
+
+    <form id="paymentForm" class="hidden">
+      <h2>Payment Form</h2>
+      <label for="uid">Free Fire UID</label>
+      <input type="text" id="uid" required />
+
+      <label for="bkash">bKash Number</label>
+      <input type="text" id="bkash" required />
+
+      <label for="note">Note</label>
+      <textarea id="note" rows="3" placeholder="Optional"></textarea>
+
+      <button type="submit">Submit Request</button>
+    </form>
+    
+    <footer class="footer">
+      <p>
+        © 2025 ESRD Game Division.
+      </p>
+    </footer>
+  </div>
+
+  <script>
+  const form = document.getElementById('paymentForm');
+  const popup = document.getElementById('popup');
+
+  const codeUsage = {
+    ESRDMS101: { amount: 500, used: 0, max: 1 },
+    ESRDMS000: { amount: 300, used: 0, max: 1 },
+    ESRDMS111: { amount: 200, used: 0, max: 1 },
+    ESRDMS222: { amount: 100, used: 0, max: 3 }
+  };
+
+  let selectedCode = null;
+
+  function validateCode() {
+    const input = document.getElementById('codeInput').value.trim().toUpperCase();
+    const msg = document.getElementById('codeMsg');
+
+    if (codeUsage[input]) {
+      if (codeUsage[input].used < codeUsage[input].max) {
+        selectedCode = input;
+        const amount = codeUsage[input].amount;
+        const charge = amount * 0.05;
+        const final = amount - charge;
+
+        document.getElementById('totalAmount').innerText = amount;
+        document.getElementById('chargeAmount').innerText = charge.toFixed(2);
+        document.getElementById('payableAmount').innerText = final.toFixed(2);
+
+        document.getElementById('codeSection').classList.add('hidden');
+        document.getElementById('preForm').classList.remove('hidden');
+        msg.innerText = '';
+      } else {
+        msg.innerText = "Code already used!";
+      }
+    } else {
+      msg.innerText = "Invalid Code!";
+    }
+  }
+
+  function showForm() {
+    document.getElementById('preForm').classList.add('hidden');
+    document.getElementById('paymentForm').classList.remove('hidden');
+  }
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const total = codeUsage[selectedCode].amount;
+    const finalAmount = (total - total * 0.05).toFixed(2); // Deduct 5%
+
+    const data = {
+      data: {
+        uid: document.getElementById('uid').value,
+        bkash: document.getElementById('bkash').value,
+        amount: finalAmount,
+        note: document.getElementById('note').value,
+        code: selectedCode,
+        timestamp: new Date().toLocaleString()
+      }
+    };
+
+    codeUsage[selectedCode].used += 1;
+
+    fetch("https://sheetdb.io/api/v1/4e8ie500zahcr", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    }).then(() => {
+      popup.style.display = "block";
+      setTimeout(() => popup.style.display = "none", 3000);
+      form.reset();
+      location.reload();
+    }).catch(err => {
+      alert("Something went wrong.");
+      console.error(err);
+    });
+  });
+</script>
+
+<div id="payment-partner-card" style="position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: space-between; padding: 10px 20px; z-index: 1000;">
+  <div style="display: flex; align-items: center;">
+    <img src="bkash.png" alt="Payment Partner" style="width: 60px; height: 60px; object-fit: contain; margin-right: 10px;">
+    <span style="font-weight: bold; font-size: 14px;">Payment Partner</span>
+  </div>
+</div>
+
+</body>
+</html>
