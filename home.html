@@ -154,6 +154,17 @@
     height: auto;
     margin-bottom: 20px;
     }
+            .badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: green;
+            color: white;
+            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
     
     .footer {
       text-align: center;
@@ -176,7 +187,9 @@
     <h2>Tournaments</h2>
     <div class="tournament" onclick="openTournament()">
       <img src="tour.jpg" alt="Tournament 1">
-      <p>GLORY RUSH 2025</p>
+      <p>GLORY RUSH 2025</p> <div class="badge">
+        Registration Open
+      </div>
     </div>
 
     <div id="tournamentDetails" style="display:none;">
@@ -194,6 +207,9 @@
       <button onclick="createProfile()">Create Profile</button>
     </div>
     <div id="userInfo" style="display:none;"></div>
+    <div id="userInfo">
+      esrdgamedivision@yahoo.com
+    </div>
   </div>
   
   <div id="pay" class="section">
@@ -242,6 +258,7 @@
     <i class="fas fa-trophy" onclick="showSection('tournament')"></i>
     <i class="fa-solid fa-fingerprint" onclick="showSection('user')"></i>
     <i class="fa-brands fa-paypal" onclick="showSection('pay')"></i>
+    <i class="fa-solid fa-gifts" onclick="showSection('')"></i>
   </div>
 
   <script>
@@ -379,6 +396,141 @@
     });
   });
 </script>
+
+<!-- Poster Popup -->
+<div class="popupx containerx" id="posterPopup">
+  <div class="posterx" onclick="openVideoPopup()">
+    <img src="gw.jpg" alt="Stream Poster" class="poster-imgx">
+    <div class="textx">Watch Stream To Win Rewards 🎁</div>
+    <div class="timerx" id="countdown">6s</div>
+  </div>
+</div>
+
+<!-- Video Popup -->
+<div class="videopopupx containerx" id="videoPopup">
+  <div class="videowrapperx">
+    <span class="closebtnx" onclick="closeVideoPopup()">×</span>
+    <iframe src="https://www.youtube.com/embed/-eXMZLk45cA?si=A0hxaTP3mql6aUjo"
+            allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  </div>
+</div>
+
+<style>
+  .containerx {
+    font-family: 'gff', sans-serif;
+    z-index: 9999;
+  }
+
+  /* Poster Styles */
+  .popupx {
+    position: fixed;
+    bottom: 60px;
+    right: 20px;
+  }
+
+  .posterx {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .poster-imgx {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+  }
+
+  .textx {
+    padding: 0 10px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .timerx {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-size: 12px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  /* Video Popup Styles */
+  .videopopupx {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #000;
+    border-radius: 10px;
+    z-index: 10000;
+    width: 90%;
+    max-width: 640px;
+  }
+
+  .videowrapperx {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 ratio */
+    height: 0;
+  }
+
+  .videowrapperx iframe {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    border: 0;
+  }
+
+  .closebtnx {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    color: black;
+    font-size: 16px;
+    border-radius: 50%;
+    padding: 4px 8px;
+    cursor: pointer;
+    z-index: 10;
+    font-weight: bold;
+    line-height: 1;
+  }
+</style>
+
+<script>
+  let timeLeft = 6;
+  const countdownEl = document.getElementById("countdown");
+  const posterPopup = document.getElementById("posterPopup");
+
+  const timer = setInterval(() => {
+    timeLeft--;
+    countdownEl.textContent = timeLeft + "s";
+    if (timeLeft <= 0) {
+      clearInterval(timer);
+      posterPopup.style.display = "none";
+    }
+  }, 1000);
+
+  function openVideoPopup() {
+    document.getElementById("videoPopup").style.display = "block";
+  }
+
+  function closeVideoPopup() {
+    document.getElementById("videoPopup").style.display = "none";
+  }
+</script>
+
 
 </body>
 </html>
