@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>YAH Home</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <title>YAH App</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
-  
         @font-face {
   font-family: 'gff';
   src: url('font.ttf') format('truetype');
@@ -15,99 +14,128 @@
 }
     body {
       margin: 0;
-      font-family: 'gff', sans-serif;
-      background: linear-gradient(to right, #fff, #fff);
-      color: #333;
+      font-family: "gff", sans-serif;
+      background: #fff;
     }
-    .nav-bar {
+    header {
+      background: #fff;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+    }
+    header img {
+      width: 70px;
+    }
+    .divider {
+      height: 2px;
+      background: #ccc;
+      margin: 0;
+    }
+    .container {
+      padding: 10px;
+    }
+    .card {
+      background: white;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    }
+    .card img {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .card button {
+      font-family: 'gff', sans-serif;
+      margin-top: 10px;
+      padding: 10px;
+      width: 100%;
+      height: 40px;
+      background: #00ADB5;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    nav {
       position: fixed;
       bottom: 0;
       width: 100%;
-      height: 28px;
+      height: 60px;
       background: #fff;
       display: flex;
       justify-content: space-around;
-      padding: 10px 0;
-      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-      z-index: 10;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.2);
     }
-    .nav-bar i {
-      color: #000000;
-      font-size: 20px;
-      cursor: copy;
-    }
-    .section {
-      display: none;
-      padding: 20px;
-    }
-    .active {
-      display: block;
-    }
-    .news, .tournament, .team-list, #userInfo {
-      margin-bottom: 15px;
-      padding: 15px;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease;
-    }
-    .news:hover, .tournament:hover {
-      transform: translateY(-5px);
-    }
-    .tournament img {
-      width: 100%;
-      height: auto;
-      border-radius: 10px;
-    }
-    .team-entry {
-      display: flex;
-      justify-content: space-between;
-      padding: 8px 0;
-      border-bottom: 1px solid #eee;
-      font-weight: 500;
-    }
-    .profile-form input {
-      display: block;
-      margin-bottom: 10px;
+    nav button {
+      flex: 1;
       padding: 10px;
-      width: 90%;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    .profile-form button {
-      padding: 10px 20px;
-      background: #000000;
-      color: white;
+      background: none;
       border: none;
-      cursor: pointer;
-      border-radius: 5px;
-      font-weight: bold;
+      color: #222831;
+      font-size: 18px;
     }
-    .profile-form button:hover {
-      background-color: #000000;
+    .popup, .walletPopup, .withdrawPopup {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
     }
-    .form-wrapper {
-      background-color: #fff;
-      border-radius: 20px;
-      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-      padding: 30px 40px;
-      max-width: 320px;
-      width: 100%;
-    }
-
-    h2 {
-      color: #000000;
+    .popup-content, .wallet-content, .withdraw-content {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 400px;
       text-align: center;
-      margin-bottom: 25px;
     }
-
-    label {
+    .hidden {
+      display: none;
+    }
+    .button {
+      font-family: 'gff', sans-serif;
+      margin-top: 30px;
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      background-color: #00ADB5;
+      color: white;
       font-weight: 600;
-      margin-bottom: 6px;
-      display: block;
+      font-size: 16px;
+      cursor: pointer;
     }
-
-    input, textarea {
+    .withdraw {
+      font-family: 'gff', sans-serif;
+      margin-top: 5px;
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      background-color: #393E46;
+      color: white;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .close {
+      font-family: 'gff', sans-serif;
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      background-color: #393E46;
+      color: white;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    input {
       font-family: 'gff', sans-serif;
       width: 100%;
       max-width: 290px;
@@ -117,420 +145,415 @@
       border-radius: 10px;
       font-size: 14px;
     }
-
-    button {
-      font-family: 'gff', sans-serif;
-      width: 100%;
-      padding: 12px;
-      border: none;
-      border-radius: 12px;
-      background-color: #000000;
-      color: white;
-      font-weight: 600;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    .popup {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background-color: #000000;
-      color: white;
-      padding: 12px 20px;
-      border-radius: 10px;
-      display: none;
-      box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-      z-index: 1000;
-    }
-
-    .hidden { display: none; }
-    
-        .logo {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    width: 50px; /* Adjust size */
-    height: auto;
-    margin-bottom: 20px;
-    }
-            .badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: green;
-            color: white;
-            font-size: 12px;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-weight: 500;
+     .containerxy {
+            text-align: center;
         }
-    
-    .footer {
-      text-align: center;
-      font-size: 12px;
-      color: #333;
-      margin-top: 25px;
-    }
+
+        .scrolling-text {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            white-space: nowrap;
+            color: #393E46;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .scrolling-text span {
+            display: inline-block;
+            padding-left: 100%;
+            animation: scroll-text 10s linear infinite;
+        }
+
+        @keyframes scroll-text {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+        #helpline {
+    position: fixed;
+    bottom: 68px;
+    right: 20px;
+    z-index: 1000;
+    cursor: copy;
+}
+
+#helpline-img {
+    width: 60px;  /* Adjust image size as needed */
+    height: 60px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
   </style>
 </head>
+
 <body>
 
-  <div id="home" class="section active">
-    <h2>Top News</h2>
-    <div class="news">ESRD Say's VANGALOS 2025 Is There Next Biggest Tournament.</div>
-    <div class="news">ESRD Going To Host Bangladesh Biggest Free Fire LAN Tournament.</div>
-    <div class="news">GLORY RUSH 2025 Registration Is Going To End In 28th April.</div>
-  </div>
+<header>
+  <img src="yah.png" alt="Logo">
+</header>
+<div class="divider"></div>
 
-  <div id="tournament" class="section">
-    <h2>Tournaments</h2>
-    <div class="tournament" onclick="openTournament()">
-      <img src="tour.jpg" alt="Tournament 1">
-      <p>GLORY RUSH 2025</p> <div class="badge">
-        Registration Open
-      </div>
+<!-- Sections -->
+<div id="home-section" class="container">
+  <div class="containerxy">
+        <img src="himg.jpg" alt="Image" width="96%" style="border-radius: 10px;">
+        <div class="scrolling-text">
+            <span>You Can Add Money To Your Account From 10 AM To 10 PM</span>
+        </div>
     </div>
-
-    <div id="tournamentDetails" style="display:none;">
-      <button onclick="registerTeam()">Register</button>
-      <h3>Team List</h3>
-      <div class="team-list" id="teamList"></div>
-    </div>
+  <div class="card">
+    <img src="t2.jpg" alt="Tournament">
+    <button onclick="openPopup()">PAY & JOIN</button>
   </div>
+ <!-- <div class="card">
+    <img src="t2.jpg" alt="Tournament">
+    <button onclick="openPopup()">PAY & JOIN</button>
+  </div> -->
+</div>
 
-  <div id="user" class="section">
-    <h2>ESRD Profile</h2>
-    <div class="profile-form" id="profileForm">
-      <input type="text" id="username" placeholder="Username">
-      <input type="password" id="password" placeholder="Password">
-      <button onclick="createProfile()">Create Profile</button>
-    </div>
-    <div id="userInfo" style="display:none;"></div>
-    <div id="userInfo">
-      esrdgamedivision@yahoo.com
-    </div>
+<div id="tournament-section" class="container hidden">
+  <h2>Upcoming Tournaments</h2>
+  <p>Stay tuned!</p>
+</div>
+
+<div id="live-section" class="container hidden">
+  <h2>How To Add Money</h2>
+   <!--<iframe width="100%" height="250" src="https://www.youtube.com/embed/-eXMZLk45cA?si=JDeoAs_dGk2nbnSE" 
+  title="Live Stream" frameborder="0" allowfullscreen></iframe> -->
+    <div id="instruction-container" style="padding: 20px; border: 1px solid #ccc; border-radius: 8px; max-width: 400px; background: #00ADB5; color: #fff;">
+  <h2>Instructions</h2>
+  <p>Step 1: Go To Your Bkash App Or Dial *247# .</p>
+  <p>Step 2: Copy The Number Click Send Money And Send The Amount You Want To Add To Our App .</p>
+  <p>Step 3: Copy The Transection Number .</p>
+  <p>Step 4: Submit The Transaction Number After 2 min & You Are Good To Go .</p>
+  <p>Money Adding Time Is 10 AM TO 10 PM</p>
+  <div style="display: flex; align-items: center; gap: 10px; margin-top: 10px;">
+    <span id="text-to-copy">01885549718</span>
+    <button onclick="copyText()" style="padding: 2px 10px; font-family: 'gff', sans-serif;">Copy</button>
   </div>
-  
-  <div id="pay" class="section">
-      <div class="popup" id="popup">Payment request submitted!</div>
+</div>
+</div>
 
-  <div class="form-wrapper">
-    <div id="codeSection">
-      <h2>Enter Access Code</h2>
-      <input type="text" id="codeInput" placeholder="Enter The Code" required />
-      <button onclick="validateCode()">Check Code</button>
-      <p id="codeMsg" style="color:red; text-align:center; margin-top:10px;"></p>
-    </div>
-
-    <div id="preForm" class="hidden">
-      <h2>Details</h2>
-      <p>Total Amount: BDT <span id="totalAmount"></span></p>
-      <p>Service Charge (-5%): BDT <span id="chargeAmount"></span></p>
-      <p>Receivable: BDT <span id="payableAmount"></span></p>
-      <button onclick="showForm()">Proceed</button>
-    </div>
-
-    <form id="paymentForm" class="hidden">
-      <h2>Payment Form</h2>
-      <label for="uid">Free Fire UID</label>
-      <input type="text" id="uid" required />
-
-      <label for="bkash">bKash Number</label>
-      <input type="text" id="bkash" required />
-
-      <label for="note">Note</label>
-      <textarea id="note" rows="3" placeholder="Optional"></textarea>
-
-      <button type="submit">Submit Request</button>
-    </form>
-    
-    <footer class="footer">
-      <p>
-        © 2025 ESRD Game Division.
-      </p>
-    </footer>
+<div id="profile-section" class="container hidden">
+  <div id="profileInfo" class="hidden">
+    <h3>Profile</h3>
+    <p id="profileDetails"></p>
+    <p id="walletBalance">Wallet: 0 Taka</p>
+    <div id="transactionHistory"></div>
+    <button onclick="openWalletPopup()" class="button">Add Money</button><br><br>
+    <button onclick="openWithdrawPopup()" class="withdraw">Withdraw</button>
   </div>
-  </div>
-
-  <div class="nav-bar">
-    <i class="fa-solid fa-newspaper" onclick="showSection('home')"></i>
-    <i class="fas fa-trophy" onclick="showSection('tournament')"></i>
-    <i class="fa-solid fa-fingerprint" onclick="showSection('user')"></i>
-    <i class="fa-brands fa-paypal" onclick="showSection('pay')"></i>
-    <i class="fa-solid fa-gifts" onclick="showSection('')"></i>
-  </div>
-
-  <script>
-    function showSection(id) {
-      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-    }
-
-    function openTournament() {
-      document.getElementById('tournamentDetails').style.display = 'block';
-      const teamList = document.getElementById('teamList');
-      teamList.innerHTML = '';
-      for (let i = 1; i <= 12; i++) {
-        teamList.innerHTML += `<div class='team-entry'>
-          <span>Team ${i}</span>
-          <span>Kills: ${Math.floor(Math.random()*10)}</span>
-          <span>Position: ${i}</span>
-          <span>Points: ${Math.floor(Math.random()*100)}</span>
-        </div>`;
-      }
-    }
-
-    function registerTeam() {
-      window.location.href = "https://forms.gle/UmF1uPWeJBQLXmA48"; // Replace with your actual registration link
-    }
-
-    function createProfile() {
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
-      const createdDate = new Date().toLocaleString();
-      if (username && password) {
-        localStorage.setItem('userProfile', JSON.stringify({ username, password, createdDate }));
-        displayProfile(username, createdDate);
-      } else {
-        alert('Please fill in both fields.');
-      }
-    }
-
-    function displayProfile(username, createdDate) {
-      document.getElementById('profileForm').style.display = 'none';
-      const userInfo = document.getElementById('userInfo');
-      userInfo.style.display = 'block';
-      userInfo.innerHTML = `
-        <h3>Hola, ${username} <i class="fa-solid fa-square-check"></i></h3>
-        <p><strong>Date Created:</strong> ${createdDate}</p>
-      `;
-    }
-
-    window.onload = function() {
-      const stored = localStorage.getItem('userProfile');
-      if (stored) {
-        const user = JSON.parse(stored);
-        displayProfile(user.username, user.createdDate);
-      }
-    }
-  </script>
-  
-    <script>
-  const form = document.getElementById('paymentForm');
-  const popup = document.getElementById('popup');
-
-  const codeUsage = {
-    ESRDMS101: { amount: 500, used: 1, max: 1 },
-    ESRDMS000: { amount: 300, used: 1, max: 1 },
-    ESRDMS111: { amount: 200, used: 1, max: 1 },
-    ESRDMS222: { amount: 100, used: 3, max: 3 }
-  };
-
-  let selectedCode = null;
-
-  function validateCode() {
-    const input = document.getElementById('codeInput').value.trim().toUpperCase();
-    const msg = document.getElementById('codeMsg');
-
-    if (codeUsage[input]) {
-      if (codeUsage[input].used < codeUsage[input].max) {
-        selectedCode = input;
-        const amount = codeUsage[input].amount;
-        const charge = amount * 0.05;
-        const final = amount - charge;
-
-        document.getElementById('totalAmount').innerText = amount;
-        document.getElementById('chargeAmount').innerText = charge.toFixed(2);
-        document.getElementById('payableAmount').innerText = final.toFixed(2);
-
-        document.getElementById('codeSection').classList.add('hidden');
-        document.getElementById('preForm').classList.remove('hidden');
-        msg.innerText = '';
-      } else {
-        msg.innerText = "Code already used!";
-      }
-    } else {
-      msg.innerText = "Invalid Code!";
-    }
-  }
-
-  function showForm() {
-    document.getElementById('preForm').classList.add('hidden');
-    document.getElementById('paymentForm').classList.remove('hidden');
-  }
-
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    const total = codeUsage[selectedCode].amount;
-    const finalAmount = (total - total * 0.05).toFixed(2); // Deduct 5%
-
-    const data = {
-      data: {
-        uid: document.getElementById('uid').value,
-        bkash: document.getElementById('bkash').value,
-        amount: finalAmount,
-        note: document.getElementById('note').value,
-        code: selectedCode,
-        timestamp: new Date().toLocaleString()
-      }
-    };
-
-    codeUsage[selectedCode].used += 1;
-
-    fetch("https://sheetdb.io/api/v1/4e8ie500zahcr", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-    }).then(() => {
-      popup.style.display = "block";
-      setTimeout(() => popup.style.display = "none", 3000);
-      form.reset();
-      location.reload();
-    }).catch(err => {
-      alert("Something went wrong.");
-      console.error(err);
-    });
-  });
-</script>
-
-<!-- Poster Popup -->
-<div class="popupx containerx" id="posterPopup">
-  <div class="posterx" onclick="openVideoPopup()">
-    <img src="gw.jpg" alt="Stream Poster" class="poster-imgx">
-    <div class="textx">Watch Stream To Win Rewards 🎁</div>
-    <div class="timerx" id="countdown">6s</div>
+  <div id="profilePopup">
+    <h3>Create Profile</h3>
+    <input type="text" id="username" placeholder="Username"><br><br>
+    <input type="password" id="password" placeholder="Password"><br><br>
+    <input type="file" id="profilePic"><br><br>
+    <button onclick="createProfile()">Create Profile</button>
   </div>
 </div>
 
-<!-- Video Popup -->
-<div class="videopopupx containerx" id="videoPopup">
-  <div class="videowrapperx">
-    <span class="closebtnx" onclick="closeVideoPopup()">×</span>
-    <iframe src="https://www.youtube.com/embed/WeW772t5gsk?si=GGF1fvyGfebsKDMH"
-            allow="autoplay; encrypted-media" allowfullscreen></iframe>
+<!-- Popup for Tournament -->
+<div class="popup" id="popup">
+  <div class="popup-content">
+    <h3>Tournament Details</h3>
+    <p>Entry Fee: 50 Taka</p>
+    <p>Won Prize: 80 Taka</p>
+    <button onclick="registerTournament()" class="button">Register</button><br><br>
+    <button onclick="closePopup()" class="close">Close</button>
   </div>
 </div>
 
-<style>
-  .containerx {
-    font-family: 'gff', sans-serif;
-    z-index: 9999;
-  }
+<!-- Popup for Add Money -->
+<div class="walletPopup" id="walletPopup">
+  <div class="wallet-content">
+    <h3>Add Money</h3>
+    <input type="text" id="walletCode" placeholder="Enter Code"><br><br>
+    <button onclick="addMoney()" class="button">Add</button><br><br>
+    <button onclick="closeWalletPopup()" class="close">Close</button>
+  </div>
+</div>
 
-  /* Poster Styles */
-  .popupx {
-    position: fixed;
-    bottom: 60px;
-    right: 20px;
-  }
+<!-- Popup for Withdraw -->
+<div class="withdrawPopup" id="withdrawPopup">
+  <div class="withdraw-content">
+    <h3>Withdraw Money</h3>
+    <input type="text" id="bkashNumber" placeholder="bKash Number"><br><br>
+    <input type="number" id="withdrawAmount" placeholder="Amount"><br><br>
+    <button onclick="submitWithdraw()" class="button">Submit</button><br><br>
+    <button onclick="closeWithdrawPopup()" class="close">Close</button>
+  </div>
+</div>
 
-  .posterx {
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    overflow: hidden;
-    position: relative;
-  }
+<div id="helpline">
+    <img src="dh.jpg" alt="Helpline" id="helpline-img" onclick="openDiscord()">
+</div>
 
-  .poster-imgx {
-    width: 60px;
-    height: 60px;
-    object-fit: cover;
-  }
 
-  .textx {
-    padding: 0 10px;
-    font-size: 14px;
-    font-weight: bold;
-  }
-
-  .timerx {
-    position: absolute;
-    top: 5px;
-    right: 10px;
-    font-size: 12px;
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 2px 6px;
-    border-radius: 4px;
-  }
-
-  /* Video Popup Styles */
-  .videopopupx {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #000;
-    border-radius: 10px;
-    z-index: 10000;
-    width: 90%;
-    max-width: 640px;
-  }
-
-  .videowrapperx {
-    position: relative;
-    width: 100%;
-    padding-bottom: 56.25%; /* 16:9 ratio */
-    height: 0;
-  }
-
-  .videowrapperx iframe {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    border: 0;
-  }
-
-  .closebtnx {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: rgba(255, 255, 255, 0.9);
-    color: black;
-    font-size: 16px;
-    border-radius: 50%;
-    padding: 4px 8px;
-    cursor: pointer;
-    z-index: 10;
-    font-weight: bold;
-    line-height: 1;
-  }
-</style>
+<!-- Bottom Navigation -->
+<nav>
+  <button onclick="showHome()"><i class="fa-solid fa-list-ol"></i></button>
+  <button onclick="showTournament()"><i class="fas fa-trophy"></i></button>
+  <button onclick="showLive()"><i class="fa-solid fa-circle-question"></i></button>
+  <button onclick="showProfile()"><i class="fa-solid fa-fingerprint"></i></button>
+</nav>
 
 <script>
-  let timeLeft = 6;
-  const countdownEl = document.getElementById("countdown");
-  const posterPopup = document.getElementById("posterPopup");
+// Initialize data from localStorage or defaults
+let userProfile = JSON.parse(localStorage.getItem('userProfile')) || null;
+let walletBalance = parseInt(localStorage.getItem('walletBalance')) || 0;
+let registrations = parseInt(localStorage.getItem('registrations')) || 0;
+let totalSpent = parseInt(localStorage.getItem('totalSpent')) || 0;
+let transactionHistory = JSON.parse(localStorage.getItem('transactionHistory')) || [];
+let usedCodes = JSON.parse(localStorage.getItem('usedCodes')) || [];
 
-  const timer = setInterval(() => {
-    timeLeft--;
-    countdownEl.textContent = timeLeft + "s";
-    if (timeLeft <= 0) {
-      clearInterval(timer);
-      posterPopup.style.display = "none";
+function openPopup() {
+  if (!userProfile) {
+    Swal.fire('Create Profile', 'Please create your profile first to continue.', 'warning');
+    showProfile();
+  } else {
+    document.getElementById('popup').style.display = 'flex';
+  }
+}
+
+function closePopup() {
+  document.getElementById('popup').style.display = 'none';
+}
+
+function openWalletPopup() {
+  document.getElementById('walletPopup').style.display = 'flex';
+}
+
+function closeWalletPopup() {
+  document.getElementById('walletPopup').style.display = 'none';
+}
+
+function openWithdrawPopup() {
+  document.getElementById('withdrawPopup').style.display = 'flex';
+}
+
+function closeWithdrawPopup() {
+  document.getElementById('withdrawPopup').style.display = 'none';
+}
+
+function registerTournament() {
+  if (walletBalance >= 50) {
+    walletBalance -= 50;
+    registrations += 1;
+    totalSpent += 50;
+    transactionHistory.push(`-50 Taka for Tournament`);
+
+    localStorage.setItem('walletBalance', walletBalance);
+    localStorage.setItem('registrations', registrations);
+    localStorage.setItem('totalSpent', totalSpent);
+    localStorage.setItem('transactionHistory', JSON.stringify(transactionHistory));
+
+    Swal.fire({
+      title: 'Success!',
+      text: 'Tournament Registration Complete!',
+      icon: 'success',
+      confirmButtonText: 'Go to Tournament Page'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = 'https://discord.gg/A3zZtFd5ND'; // <-- Change this to your tournament page
+      }
+    });
+
+    closePopup();
+    updateProfileDashboard();
+  } else {
+    Swal.fire('Insufficient Balance', 'Please add money to your wallet.', 'error');
+  }
+}
+
+function createProfile() {
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+  const profilePic = document.getElementById('profilePic').files[0];
+
+  if (username && password && profilePic) {
+    userProfile = { username, password };
+    localStorage.setItem('userProfile', JSON.stringify(userProfile));
+    localStorage.setItem('walletBalance', walletBalance);
+    Swal.fire('Success!', 'Profile Created Successfully!', 'success');
+    updateProfileDashboard();
+    showProfile();
+  } else {
+    Swal.fire('Warning', 'Please fill all fields!', 'warning');
+  }
+}
+
+function addMoney() {
+  const code = document.getElementById('walletCode').value.trim();
+
+  if (usedCodes.includes(code)) {
+    Swal.fire('Warning', 'You have already used this code!', 'warning');
+    return;
+  }
+
+  if (code === 'BONUS20') {
+    walletBalance += 20;
+    transactionHistory.push(`+20 Taka Added (Campaign Bonus)`);
+
+    usedCodes.push(code);
+    localStorage.setItem('usedCodes', JSON.stringify(usedCodes));
+    localStorage.setItem('walletBalance', walletBalance);
+    localStorage.setItem('transactionHistory', JSON.stringify(transactionHistory));
+
+    Swal.fire('Success!', 'Money Added Successfully!', 'success');
+    closeWalletPopup();
+    updateProfileDashboard();
+  } else {
+    Swal.fire('Error', 'Invalid Code!', 'error');
+  }
+}
+
+function submitWithdraw() {
+  const number = document.getElementById('bkashNumber').value.trim();
+  const amount = parseInt(document.getElementById('withdrawAmount').value.trim());
+
+  if (!number || !amount) {
+    Swal.fire('Warning', 'Please fill all fields!', 'warning');
+    return;
+  }
+  if (amount > walletBalance) {
+    Swal.fire('Error', 'You cannot withdraw more than your balance!', 'error');
+    return;
+  }
+
+  Swal.fire({
+    title: 'Submitting...',
+    text: 'Please wait while we process your withdrawal request.',
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading();
     }
-  }, 1000);
+  });
 
-  function openVideoPopup() {
-    document.getElementById("videoPopup").style.display = "block";
-  }
+  fetch('https://sheetdb.io/api/v1/2prhuuz399aja', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      data: [
+        {
+          bkash: number,
+          amount: amount
+        }
+      ]
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    Swal.fire('Request Sent!', 'Withdrawal Request Submitted Successfully.', 'success');
+    walletBalance -= amount;
+    transactionHistory.push(`- ${amount} Taka Withdrawn`);
+    localStorage.setItem('walletBalance', walletBalance);
+    localStorage.setItem('transactionHistory', JSON.stringify(transactionHistory));
+    updateProfileDashboard();
+    closeWithdrawPopup();
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    Swal.fire('Error', 'Something went wrong. Try again later.', 'error');
+  });
+}
 
-  function closeVideoPopup() {
-    document.getElementById("videoPopup").style.display = "none";
+function updateProfileDashboard() {
+  if (userProfile) {
+    document.getElementById('profilePopup').classList.add('hidden');
+    document.getElementById('profileInfo').classList.remove('hidden');
+    document.getElementById('profileDetails').innerHTML = `
+      Username: ${userProfile.username}<br><br>
+      <strong>Dashboard:</strong><br>
+      Total Registrations: ${registrations}<br>
+      Total Spent: ${totalSpent} Taka<br>
+    `;
+    document.getElementById('walletBalance').innerText = `Wallet: ${walletBalance} Taka`;
+
+    let historyHTML = '<br><strong>Transaction History:</strong><br>';
+    transactionHistory.forEach(item => {
+      historyHTML += `${item}<br>`;
+    });
+    document.getElementById('transactionHistory').innerHTML = historyHTML;
   }
+}
+
+function showHome() {
+  hideAll();
+  document.getElementById('home-section').classList.remove('hidden');
+}
+
+function showTournament() {
+  hideAll();
+  document.getElementById('tournament-section').classList.remove('hidden');
+}
+
+function showLive() {
+  hideAll();
+  document.getElementById('live-section').classList.remove('hidden');
+}
+
+function showProfile() {
+  hideAll();
+  document.getElementById('profile-section').classList.remove('hidden');
+  updateProfileDashboard();
+}
+
+function hideAll() {
+  document.getElementById('home-section').classList.add('hidden');
+  document.getElementById('tournament-section').classList.add('hidden');
+  document.getElementById('live-section').classList.add('hidden');
+  document.getElementById('profile-section').classList.add('hidden');
+}
+
+// Initial load
+if (userProfile) {
+  updateProfileDashboard();
+}
+
 </script>
+<script>
+function copyText() {
+  const text = document.getElementById('text-to-copy').innerText;
+  navigator.clipboard.writeText(text)
+    .then(() => {
+      Swal.fire({
+        title: 'Success!',
+        text: 'Number copied to clipboard!',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      });
+    })
+    .catch(err => {
+      console.error('Failed to copy: ', err);
+      Swal.fire({
+        title: 'Error!',
+        text: 'Failed to copy the text.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+    });
+}
+</script>
+<script>
+  function openDiscord() {
+    const discordLink = "https://discord.gg/FCpkV72Dgm";  // Replace with your actual Discord link
+    const isAppAvailable = window.navigator && window.navigator.share;
 
+    if (isAppAvailable) {
+        window.location.href = discordLink; // Will redirect to the Discord app if available
+    } else {
+        window.open(discordLink, "_blank"); // Will open Discord link in a new tab if the app isn't available
+    }
+}
 
+</script>
 </body>
 </html>
