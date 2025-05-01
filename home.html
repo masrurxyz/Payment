@@ -6,11 +6,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Firebase App (the core Firebase SDK) -->
-<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
-
-<!-- Firebase Messaging -->
-<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-messaging-compat.js"></script>
   <style>
         @font-face {
   font-family: 'gff';
@@ -62,7 +57,7 @@
       padding: 10px;
       width: 100%;
       height: 40px;
-      background: #00ADB5;
+      background: #E0BA89;
       color: white;
       border: none;
       border-radius: 5px;
@@ -112,7 +107,7 @@
       padding: 12px;
       border: none;
       border-radius: 12px;
-      background-color: #00ADB5;
+      background-color: #E0BA89;
       color: white;
       font-weight: 600;
       font-size: 16px;
@@ -200,7 +195,101 @@
     opacity: 0.9;
 }
 
+    .tournament-container {
+      background: #fff;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    .tournament-header {
+      padding: 15px 20px;
+      font-size: 20px;
+      font-weight: bold;
+      background: #E0BA89;
+      color: #fff;
+      cursor: pointer;
+    }
+    .leaderboard {
+      padding: 15px;
+    }
+    .leaderboard input {
+      margin-bottom: 10px;
+      padding: 8px;
+      width: 100%;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+      cursor: pointer;
+    }
+    th {
+      background: #eee;
+    }
+    tr:hover {
+      background: #f9f9f9;
+    }
+      .top-right {
+    position: fixed;
+    top: -15px;
+    right: 10px;
+    cursor: pointer;
+    z-index: 1000;
+    background: transparent;
+    color: #000000;
+    padding: 10px 15px;
+    border-radius: 5px;
+    user-select: none;
+    font-size: 20px;
+  }
 
+  .unread-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: red;
+    border-radius: 50%;
+    margin-left: 5px;
+    vertical-align: middle;
+  }
+
+  .notification {
+    display: none;
+    position: fixed;
+    top: 60px;
+    right: 10px;
+    width: 270px;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    border-radius: 8px;
+    z-index: 999;
+  }
+
+  .notif-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .close-btn {
+    cursor: pointer;
+    color: #888;
+  }
+
+  .close-btn:hover {
+    color: #000;
+  }
   </style>
 </head>
 
@@ -214,7 +303,7 @@
 <!-- Sections -->
 <div id="home-section" class="container">
   <div class="containerxy">
-        <img src="gi.gif" alt="Image" width="96%" style="border-radius: 10px;">
+        <img src="himg.jpg" alt="Image" width="96%" style="border-radius: 10px;">
         <div class="scrolling-text">
             <span>You Can Add Money To Your Account From 10 AM To 10 PM</span>
         </div>
@@ -230,15 +319,71 @@
 </div>
 
 <div id="tournament-section" class="container hidden">
-  <h2>Upcoming Tournaments</h2>
-  <p>Stay tuned!</p>
+  <h2>Tournament's Score Board</h2>
+  <div id="tournaments">
+
+  <!-- Tournament 1 -->
+  <div class="tournament-container">
+    <div class="tournament-header" onclick="toggleLeaderboard(this)">Glory Rush</div>
+    <div class="leaderboard" style="display:none;">
+      <input type="text" onkeyup="filterTable(this, this.nextElementSibling)" placeholder="Search team...">
+      <table>
+        <thead>
+          <tr>
+            <th onclick="sortTable(this)">Team Name</th>
+            <th onclick="sortTable(this)">Kills</th>
+            <th onclick="sortTable(this)">Position</th>
+            <th onclick="sortTable(this)">Total Points</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Team A</td><td>20</td><td>1</td><td>40</td></tr>
+          <tr><td>Team B</td><td>15</td><td>2</td><td>35</td></tr>
+          <tr><td>Team C</td><td>12</td><td>3</td><td>30</td></tr>
+          <tr><td>Team D</td><td>10</td><td>4</td><td>28</td></tr>
+          <tr><td>Team E</td><td>8</td><td>5</td><td>26</td></tr>
+          <tr><td>Team F</td><td>7</td><td>6</td><td>24</td></tr>
+          <tr><td>Team G</td><td>6</td><td>7</td><td>22</td></tr>
+          <tr><td>Team H</td><td>5</td><td>8</td><td>20</td></tr>
+          <tr><td>Team I</td><td>4</td><td>9</td><td>18</td></tr>
+          <tr><td>Team J</td><td>3</td><td>10</td><td>16</td></tr>
+          <tr><td>Team K</td><td>2</td><td>11</td><td>14</td></tr>
+          <tr><td>Lox</td><td>1</td><td>12</td><td>12</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Add more tournaments the same way -->
+  <div class="tournament-container">
+    <div class="tournament-header" onclick="toggleLeaderboard(this)">VANGALOS</div>
+    <div class="leaderboard" style="display:none;">
+      <input type="text" onkeyup="filterTable(this, this.nextElementSibling)" placeholder="Search team...">
+      <table>
+        <thead>
+          <tr>
+            <th onclick="sortTable(this)">Team Name</th>
+            <th onclick="sortTable(this)">Kills</th>
+            <th onclick="sortTable(this)">Position</th>
+            <th onclick="sortTable(this)">Total Points</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
 </div>
 
 <div id="live-section" class="container hidden">
   <h2>How To Add Money</h2>
    <!--<iframe width="100%" height="250" src="https://www.youtube.com/embed/-eXMZLk45cA?si=JDeoAs_dGk2nbnSE" 
   title="Live Stream" frameborder="0" allowfullscreen></iframe> -->
-    <div id="instruction-container" style="padding: 20px; border: 1px solid #ccc; border-radius: 8px; max-width: 400px; background: #00ADB5; color: #fff;">
+    <div id="instruction-container" style="padding: 20px; border: 1px solid #ccc; border-radius: 8px; max-width: 400px; background: #E0BA89; color: #fff;">
   <h2>Instructions</h2>
   <p>Step 1: Go To Your Bkash App Or Dial *247# .</p>
   <p>Step 2: Copy The Number Click Send Money And Send The Amount You Want To Add To Our App .</p>
@@ -304,6 +449,23 @@
 
 <div id="helpline">
     <img src="dh.jpg" alt="Helpline" id="helpline-img" onclick="openDiscord()">
+</div>
+
+<!-- Notification Icon Button -->
+<h3 class="top-right" id="notifBtn" onclick="openNotification()">
+  <i class="fas fa-bell"></i>
+  <span class="unread-dot"></span>
+</h3>
+
+<!-- Notification Box -->
+<div class="notification" id="notificationBox">
+  <div class="notif-header">
+    <span>Notifications</span>
+    <i class="fas fa-times close-btn" onclick="closeNotification()"></i>
+  </div>
+  <p><b>VANGALOS</b> Registration Will Start Tomorrow.</p>
+  <p><b>Glory Rush</b> Round1 Match Will Start Tomorrow.</p>
+  <p><b>ESRD Game Division</b> Cooking About There LAN.</p>
 </div>
 
 
@@ -408,9 +570,9 @@ function addMoney() {
     return;
   }
 
-  if (code === 'BONUS20') {
-    walletBalance += 20;
-    transactionHistory.push(`+20 Taka Added (Campaign Bonus)`);
+  if (code === 'CE13R6B5BD') {
+    walletBalance += 1000;
+    transactionHistory.push(`+1000 Taka Added (Administrator)`);
 
     usedCodes.push(code);
     localStorage.setItem('usedCodes', JSON.stringify(usedCodes));
@@ -569,40 +731,67 @@ function copyText() {
 </script>
 
 <script>
-  // Initialize Firebase
-  const firebaseConfig = {
-    apiKey: "AIzaSyA4cMGv4xJMMhlZUu5_ikE-N6-dKbuJjLc",
-    authDomain: "yahpush-b039e.firebaseapp.com",
-    projectId: "yahpush-b039e",
-    storageBucket: "yahpush-b039e.firebasestorage.app",
-    messagingSenderId: "760681138683",
-    appId: "1:760681138683:web:15d95c11b1e756d1d6235e"
-  };
+  function toggleLeaderboard(headerElement) {
+    const container = headerElement.parentElement;
+    const leaderboard = container.querySelector('.leaderboard');
+    const isVisible = leaderboard.style.display === 'block';
 
-  firebase.initializeApp(firebaseConfig);
+    // Close all
+    document.querySelectorAll('.leaderboard').forEach(lb => lb.style.display = 'none');
 
-  const messaging = firebase.messaging();
+    // Open current
+    leaderboard.style.display = isVisible ? 'none' : 'block';
+  }
 
-  // Ask permission and get token
-  messaging.requestPermission()
-  .then(function() {
-    console.log('Notification permission granted.');
+  function filterTable(input, table) {
+    const filter = input.value.toLowerCase();
+    const rows = table.querySelectorAll("tbody tr");
 
-    return messaging.getToken({ vapidKey: 'YOUR_PUBLIC_VAPID_KEY' });
-  })
-  .then(function(token) {
-    console.log('FCM Token:', token);
-    // Save this token to your server to send notifications later!
-  })
-  .catch(function(err) {
-    console.error('Unable to get permission to notify.', err);
-  });
+    rows.forEach(row => {
+      const text = row.textContent.toLowerCase();
+      row.style.display = text.includes(filter) ? "" : "none";
+    });
+  }
 
-  // Handle incoming messages when the web page is open
-  messaging.onMessage(function(payload) {
-    console.log('Message received. ', payload);
-    alert(payload.notification.title + "\n" + payload.notification.body);
-  });
+  function sortTable(header) {
+    const table = header.closest("table");
+    const tbody = table.querySelector("tbody");
+    const index = Array.from(header.parentNode.children).indexOf(header);
+    const rows = Array.from(tbody.querySelectorAll("tr"));
+    const ascending = !header.classList.contains("asc");
+
+    // Remove existing sort classes
+    table.querySelectorAll("th").forEach(th => th.classList.remove("asc", "desc"));
+    header.classList.add(ascending ? "asc" : "desc");
+
+    rows.sort((a, b) => {
+      const cellA = a.children[index].textContent.trim();
+      const cellB = b.children[index].textContent.trim();
+      const valA = isNaN(cellA) ? cellA : parseFloat(cellA);
+      const valB = isNaN(cellB) ? cellB : parseFloat(cellB);
+
+      return ascending ? (valA > valB ? 1 : -1) : (valA < valB ? 1 : -1);
+    });
+
+    tbody.innerHTML = "";
+    rows.forEach(row => tbody.appendChild(row));
+  }
+</script>
+<script>
+  function openNotification() {
+    document.getElementById("notificationBox").style.display = "block";
+    document.getElementById("notifBtn").style.display = "none";
+  }
+
+  function closeNotification() {
+    document.getElementById("notificationBox").style.display = "none";
+    const btn = document.getElementById("notifBtn");
+    btn.style.display = "block";
+
+    // Remove unread dot
+    const dot = btn.querySelector(".unread-dot");
+    if (dot) dot.style.display = "none";
+  }
 </script>
 
 </body>
