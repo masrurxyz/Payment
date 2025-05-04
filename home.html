@@ -190,6 +190,7 @@
     height: 60px;
     cursor: pointer;
     border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 .card button:hover, .button:hover, .withdraw:hover, .close:hover {
     opacity: 0.9;
@@ -200,12 +201,12 @@
       margin-bottom: 20px;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      overflow: hidden;
     }
     .tournament-header {
       padding: 15px 20px;
       font-size: 20px;
       font-weight: bold;
+      border-radius: 5px;
       background: #E0BA89;
       color: #fff;
       cursor: pointer;
@@ -213,12 +214,14 @@
     .leaderboard {
       padding: 15px;
     }
-    .leaderboard input {
+    .leaderboard input,
+    .leaderboard select {
       margin-bottom: 10px;
       padding: 8px;
       width: 100%;
       border-radius: 5px;
       border: 1px solid #ccc;
+      font-size: 16px;
     }
     table {
       width: 100%;
@@ -229,7 +232,6 @@
       padding: 10px;
       text-align: left;
       border-bottom: 1px solid #ddd;
-      cursor: pointer;
     }
     th {
       background: #eee;
@@ -290,6 +292,85 @@
   .close-btn:hover {
     color: #000;
   }
+   /* Music player styles */
+        #music-player {
+            position: fixed;
+            bottom: 68px;
+            left: 20px;
+            background-color: #ffffff;
+            border-radius: 50px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            z-index: 1000;
+        }
+
+        .control-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background-color: #7289da;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .control-button:hover {
+            background-color: #7289da;
+            transform: scale(1.05);
+        }
+
+        .control-button svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        .mute-button {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
+            background-color: transparent;
+            color: #4b5563;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .mute-button:hover {
+            background-color: #f3f4f6;
+            transform: scale(1.05);
+        }
+
+        .mute-button svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        .muted {
+            color: #9ca3af;
+        }
+
+        /* Add a subtle pulse animation for the playing state */
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(79, 70, 229, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); }
+        }
+
+        .playing {
+            animation: pulse 2s infinite;
+        }
   </style>
 </head>
 
@@ -320,69 +401,52 @@
 
 <div id="tournament-section" class="container hidden">
   <h2>Tournament's Score Board</h2>
-  <div id="tournaments">
+<div id="tournaments">
 
-  <!-- Tournament 1 -->
   <div class="tournament-container">
     <div class="tournament-header" onclick="toggleLeaderboard(this)">Glory Rush</div>
     <div class="leaderboard" style="display:none;">
-      <input type="text" onkeyup="filterTable(this, this.nextElementSibling)" placeholder="Search team...">
+      <input type="text" placeholder="Search team..." oninput="filterAndSort(this)">
+      <select onchange="filterAndSort(this)" style="font-family: 'gff', sans-serif;">
+        <option value="">-- Filter by --</option>
+        <option value="kills-high">Kills: High to Low</option>
+        <option value="kills-low">Kills: Low to High</option>
+        <option value="position-low">Position: 1 to 12</option>
+        <option value="position-high">Position: 12 to 1</option>
+        <option value="points-high">Points: High to Low</option>
+        <option value="points-low">Points: Low to High</option>
+      </select>
+
       <table>
         <thead>
           <tr>
-            <th onclick="sortTable(this)">Team Name</th>
-            <th onclick="sortTable(this)">Kills</th>
-            <th onclick="sortTable(this)">Position</th>
-            <th onclick="sortTable(this)">Total Points</th>
+            <th>Team Name</th>
+            <th>Kills</th>
+            <th>Position</th>
+            <th>Total Points</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>BHX ESP</td><td>0</td><td>4</td><td>4</td></tr>
-          <tr><td>Furious Falcon</td><td>5</td><td>6</td><td>11</td></tr>
-          <tr><td>SAVAGE HUNTER</td><td>6</td><td>7</td><td>13</td></tr>
-          <tr><td>TMS ESP</td><td>15</td><td>12</td><td>27</td></tr>
-          <tr><td>DareDevil</td><td>8</td><td>8</td><td>16</td></tr>
-          <tr><td>HunterX</td><td>1</td><td>5</td><td>6</td></tr>
-          <tr><td>BLACK SHOOTER</td><td>9</td><td>9</td><td>22</td></tr>
-          <tr><td>Dismantle X</td><td>2</td><td>6</td><td>8</td></tr>
-          <tr><td>TM Univers</td><td>1</td><td>7</td><td>8</td></tr>
-          <tr><td>Syndicate Breakers</td><td>5</td><td>8</td><td>13</td></tr>
+          <tr><td>Team A</td><td>20</td><td>10</td><td>40</td></tr>
+          <tr><td>Team B</td><td>15</td><td>2</td><td>35</td></tr>
+          <tr><td>Team C</td><td>12</td><td>3</td><td>30</td></tr>
+          <tr><td>Team D</td><td>10</td><td>4</td><td>28</td></tr>
+          <tr><td>Team E</td><td>8</td><td>5</td><td>26</td></tr>
+          <tr><td>Team F</td><td>7</td><td>6</td><td>24</td></tr>
+          <tr><td>Team G</td><td>6</td><td>7</td><td>22</td></tr>
+          <tr><td>Team H</td><td>5</td><td>8</td><td>20</td></tr>
+          <tr><td>Team I</td><td>4</td><td>9</td><td>18</td></tr>
+          <tr><td>Team J</td><td>3</td><td>100</td><td>16</td></tr>
           <tr><td>Team K</td><td>2</td><td>11</td><td>14</td></tr>
-          <tr><td>BOT444</td><td>13</td><td>12</td><td>25</td></tr>
-          <tr><td>Die ESP</td><td>14</td><td>9</td><td>23</td></tr>
-          <tr><td>Death Note</td><td>1</td><td>5</td><td>6</td></tr>
-          <tr><td>LUST FOR</td><td>11</td><td>4</td><td>15</td></tr>
-          <tr><td>TEAM SKAR</td><td>0</td><td>9</td><td>9</td></tr>
-          <tr><td>SHADOW IMPER</td><td>3</td><td>7</td><td>10</td></tr>
-          <tr><td>SLAUGHTERED FORCE</td><td>15</td><td>12</td><td>27</td></tr>
-          <tr><td>DOMAIN ESP</td><td>7</td><td>8</td><td>15</td></tr>
-          <tr><td>TEAM HULK</td><td>3</td><td>6</td><td>9</td></tr>
-          <tr><td>SPERTANS ESP</td><td>4</td><td>3</td><td>7</td></tr>
+          <tr><td>Team L</td><td>1</td><td>12</td><td>12</td></tr>
+          <tr><td>Team L</td><td>1</td><td>12</td><td>12</td></tr>
         </tbody>
       </table>
     </div>
   </div>
 
-  <!-- Add more tournaments the same way -->
-  <div class="tournament-container">
-    <div class="tournament-header" onclick="toggleLeaderboard(this)">VANGALOS</div>
-    <div class="leaderboard" style="display:none;">
-      <input type="text" onkeyup="filterTable(this, this.nextElementSibling)" placeholder="Search team...">
-      <table>
-        <thead>
-          <tr>
-            <th onclick="sortTable(this)">Team Name</th>
-            <th onclick="sortTable(this)">Kills</th>
-            <th onclick="sortTable(this)">Position</th>
-            <th onclick="sortTable(this)">Total Points</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td></td><td></td><td></td><td></td></tr>
-          <tr><td></td><td></td><td></td><td></td></tr>
-        </tbody>
-      </table>
-    </div>
+</div>
+  </div>
   </div>
 
 </div>
@@ -472,10 +536,35 @@
     <span>Notifications</span>
     <i class="fas fa-times close-btn" onclick="closeNotification()"></i>
   </div>
-  <p><b>VANGALOS</b> Registration Will Start Tomorrow.</p>
-  <p><b>Glory Rush</b> Round1 Match Will Start Tomorrow.</p>
+  <p>More Than 50 Teams Are Already Registered To <b>VANGALOS</b></p>
+  <p><b>Glory Rush</b> Price Pool Reveals.</p>
   <p><b>ESRD Game Division</b> Cooking About There LAN.</p>
 </div>
+
+
+        <div id="music-player">
+        <button id="play-pause-button" class="control-button playing" aria-label="Play or pause music">
+            <!-- Play Icon SVG -->
+            <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="display: none;">
+                <path d="M8 5v14l11-7z"/>
+            </svg>
+            <!-- Pause Icon SVG -->
+            <svg id="pause-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+            </svg>
+        </button>
+        <button id="mute-button" class="mute-button" aria-label="Mute or unmute music">
+            <!-- Volume Icon SVG -->
+            <svg id="volume-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+            </svg>
+            <!-- Mute Icon SVG -->
+            <svg id="mute-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="display: none;">
+                <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+            </svg>
+        </button>
+        <audio id="audio-player" src="bg.mp3"></audio>
+    </div>
 
 
 <!-- Bottom Navigation -->
@@ -738,52 +827,58 @@ function copyText() {
 }
 
 </script>
-
 <script>
   function toggleLeaderboard(headerElement) {
     const container = headerElement.parentElement;
     const leaderboard = container.querySelector('.leaderboard');
     const isVisible = leaderboard.style.display === 'block';
-
-    // Close all
     document.querySelectorAll('.leaderboard').forEach(lb => lb.style.display = 'none');
-
-    // Open current
     leaderboard.style.display = isVisible ? 'none' : 'block';
   }
 
-  function filterTable(input, table) {
-    const filter = input.value.toLowerCase();
-    const rows = table.querySelectorAll("tbody tr");
+  function filterAndSort(trigger) {
+    const leaderboard = trigger.closest('.leaderboard');
+    const input = leaderboard.querySelector('input');
+    const select = leaderboard.querySelector('select');
+    const filterText = input.value.toLowerCase();
+    const sortOption = select.value;
 
+    const table = leaderboard.querySelector('table');
+    const rows = Array.from(table.querySelectorAll('tbody tr'));
+
+    // Filter rows
     rows.forEach(row => {
       const text = row.textContent.toLowerCase();
-      row.style.display = text.includes(filter) ? "" : "none";
-    });
-  }
-
-  function sortTable(header) {
-    const table = header.closest("table");
-    const tbody = table.querySelector("tbody");
-    const index = Array.from(header.parentNode.children).indexOf(header);
-    const rows = Array.from(tbody.querySelectorAll("tr"));
-    const ascending = !header.classList.contains("asc");
-
-    // Remove existing sort classes
-    table.querySelectorAll("th").forEach(th => th.classList.remove("asc", "desc"));
-    header.classList.add(ascending ? "asc" : "desc");
-
-    rows.sort((a, b) => {
-      const cellA = a.children[index].textContent.trim();
-      const cellB = b.children[index].textContent.trim();
-      const valA = isNaN(cellA) ? cellA : parseFloat(cellA);
-      const valB = isNaN(cellB) ? cellB : parseFloat(cellB);
-
-      return ascending ? (valA > valB ? 1 : -1) : (valA < valB ? 1 : -1);
+      row.style.display = text.includes(filterText) ? '' : 'none';
     });
 
-    tbody.innerHTML = "";
-    rows.forEach(row => tbody.appendChild(row));
+    // Sort rows
+    const visibleRows = rows.filter(row => row.style.display !== 'none');
+
+    const colIndex = {
+      'kills': 1,
+      'position': 2,
+      'points': 3
+    };
+
+    let type = '';
+    let order = 1;
+
+    if (sortOption.includes('-')) {
+      [type, order] = sortOption.split('-');
+      order = order === 'high' ? -1 : 1;
+    }
+
+    if (colIndex[type]) {
+      visibleRows.sort((a, b) => {
+        const valA = parseFloat(a.children[colIndex[type]].textContent);
+        const valB = parseFloat(b.children[colIndex[type]].textContent);
+        return (valA - valB) * order;
+      });
+
+      const tbody = table.querySelector('tbody');
+      visibleRows.forEach(row => tbody.appendChild(row));
+    }
   }
 </script>
 <script>
@@ -803,5 +898,59 @@ function copyText() {
   }
 </script>
 
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const audioPlayer = document.getElementById('audio-player');
+            const playPauseButton = document.getElementById('play-pause-button');
+            const muteButton = document.getElementById('mute-button');
+            const playIcon = document.getElementById('play-icon');
+            const pauseIcon = document.getElementById('pause-icon');
+            const volumeIcon = document.getElementById('volume-icon');
+            const muteIcon = document.getElementById('mute-icon');
+            
+            // Try to autoplay when page loads
+            audioPlayer.play().then(() => {
+                // Autoplay successful
+                pauseIcon.style.display = 'block';
+                playIcon.style.display = 'none';
+                playPauseButton.classList.add('playing');
+            }).catch(error => {
+                // Autoplay prevented by browser
+                console.log("Autoplay was prevented:", error);
+                pauseIcon.style.display = 'none';
+                playIcon.style.display = 'block';
+                playPauseButton.classList.remove('playing');
+            });
+            
+            // Play/Pause functionality
+            playPauseButton.addEventListener('click', function() {
+                if (audioPlayer.paused) {
+                    audioPlayer.play();
+                    pauseIcon.style.display = 'block';
+                    playIcon.style.display = 'none';
+                    playPauseButton.classList.add('playing');
+                } else {
+                    audioPlayer.pause();
+                    pauseIcon.style.display = 'none';
+                    playIcon.style.display = 'block';
+                    playPauseButton.classList.remove('playing');
+                }
+            });
+            
+            // Mute/Unmute functionality
+            muteButton.addEventListener('click', function() {
+                audioPlayer.muted = !audioPlayer.muted;
+                if (audioPlayer.muted) {
+                    volumeIcon.style.display = 'none';
+                    muteIcon.style.display = 'block';
+                    muteButton.classList.add('muted');
+                } else {
+                    volumeIcon.style.display = 'block';
+                    muteIcon.style.display = 'none';
+                    muteButton.classList.remove('muted');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
