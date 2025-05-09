@@ -198,13 +198,13 @@ function addMoney(code) {
   }
 
   if (code === "VALID123") {
-    userData.balance += 50
+    userData.balance += 5000
     // Add the transaction ID to the used IDs list
     usedTransactionIds.push(code)
     saveUsedTransactionIds()
     saveUserData()
     renderProfile()
-    showPopup("Successfully added 50 BDT to your wallet!")
+    showPopup("Successfully added 5000 BDT to your wallet!")
   } else {
     showPopup("Wrong transaction ID. Please try again.")
   }
@@ -376,7 +376,7 @@ function renderProfile() {
     container.innerHTML = `
       <div class="profile-container">
         <div class="profile-header">
-          <img class="profile-image" src="${userData.profileImage || "https://via.placeholder.com/200"}" alt="Profile">
+          <img class="profile-image" src="${userData.profileImage || "user.jpg"}" alt="Profile">
           <h2 class="profile-name">${userData.username}</h2>
           <p class="profile-id">ID: ${userData.uniqueId}</p>
           <div class="profile-wallet">
