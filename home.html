@@ -1,116 +1,301 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GameTourneys</title>
-  <link rel="stylesheet" href="styles.css">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YAH - ESRD</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <div class="app-container">
-    <!-- Header with Logo -->
-    <header class="app-header">
-      <div class="logo">
-        <img src="logo.png" alt="App Logo">
-        <h1></h1>
-      </div>
-    </header>
-
-    <!-- Main Content Area -->
-    <main class="main-content">
-      <!-- Home Section -->
-      <section id="home-section" class="section active">
-        <h2>Tournaments</h2>
-        <div class="tournaments-list" id="home-tournaments">
-          <!-- Tournament cards will be added here by JavaScript -->
+    <div class="app-container">
+        <!-- App Logo -->
+        <div class="app-logo">
+            <img src="yahh.png" alt="App Logo">
         </div>
-      </section>
 
-      <!-- Tournament Section -->
-      <section id="tournament-section" class="section">
-        <h2>Tournament Schedule</h2>
-        <div class="tournaments-list" id="all-tournaments">
-          <!-- Tournament cards will be added here by JavaScript -->
-        </div>
-      </section>
+        <!-- Main Content Area -->
+        <main id="main-content">
+            <!-- Content will be loaded here dynamically -->
+        </main>
 
-      <!-- Leaderboard Section -->
-      <section id="leaderboard-section" class="section">
-        <h2>Leaderboard</h2>
-        <div class="leaderboard-container">
-          <div class="leaderboard-header">
-            <span>Rank</span>
-            <span>Player</span>
-            <span>Points</span>
-          </div>
-          <div class="leaderboard-list" id="leaderboard-list">
-            <!-- Leaderboard entries will be added here by JavaScript -->
-          </div>
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <div class="nav-item active" data-page="home">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </div>
+            <div class="nav-item" data-page="tournament">
+                <i class="fas fa-trophy"></i>
+                <span>Tournament</span>
+            </div>
+            <div class="nav-item" data-page="leaderboard">
+                <i class="fas fa-chart-bar"></i>
+                <span>Leaderboard</span>
+            </div>
+            <div class="nav-item" data-page="profile">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </div>
         </div>
-      </section>
-
-      <!-- Profile Section -->
-      <section id="profile-section" class="section">
-        <div id="profile-content">
-          <!-- Profile content will be added here by JavaScript -->
-        </div>
-      </section>
-    </main>
-
-    <!-- Bottom Navigation Bar -->
-    <nav class="bottom-nav">
-      <div class="nav-container">
-        <button class="nav-button active" data-section="home">
-          <i class="fas fa-home"></i>
-          <span>Home</span>
-        </button>
-        <button class="nav-button" data-section="tournament">
-          <i class="fas fa-trophy"></i>
-          <span>Tournament</span>
-        </button>
-        <button class="nav-button" data-section="leaderboard">
-          <i class="fas fa-chart-bar"></i>
-          <span>Leaderboard</span>
-        </button>
-        <button class="nav-button" data-section="profile">
-          <i class="fas fa-user"></i>
-          <span>Profile</span>
-        </button>
-      </div>
-    </nav>
-
-    <!-- Popup Component -->
-    <div id="popup" class="popup-container hidden">
-      <div class="popup">
-        <div class="popup-header">
-          <h3>Notification</h3>
-          <button id="close-popup"><i class="fas fa-times"></i></button>
-        </div>
-        <p id="popup-message"></p>
-        <div class="popup-footer">
-          <button id="popup-ok-btn">OK</button>
-        </div>
-      </div>
     </div>
 
-    <!-- Add Money Modal -->
-    <div id="add-money-modal" class="modal-container hidden">
-      <div class="modal">
-        <h3>Add Money to Wallet</h3>
-        <p>Enter your transaction ID</p>
-        <div class="form-group">
-          <input type="text" id="transaction-code" placeholder="Enter transaction code">
-          <p class="hint">(If You Donot Have Any Code Please Have One From ESD)</p>
+    <!-- Templates -->
+    <!-- Home Page Template -->
+    <template id="home-template">
+        <div class="page-container">
+            <h1 class="page-title">Upcoming Tournaments</h1>
+            <div id="tournaments-list" class="card-list">
+                <!-- Tournaments will be loaded here -->
+            </div>
         </div>
-        <div class="modal-footer">
-          <button id="cancel-add-money" class="btn-secondary">Cancel</button>
-          <button id="confirm-add-money" class="btn-primary">Confirm</button>
+    </template>
+
+    <!-- Tournament Page Template -->
+    <template id="tournament-template">
+        <div class="page-container">
+            <h1 class="page-title">All Tournaments</h1>
+            <div id="all-tournaments-list" class="card-list">
+                <!-- All tournaments will be loaded here -->
+            </div>
         </div>
+    </template>
+
+    <!-- Leaderboard Page Template -->
+    <template id="leaderboard-template">
+        <div class="page-container">
+            <h1 class="page-title">Leaderboard</h1>
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Top Players</h2>
+                </div>
+                <div class="card-content">
+                    <div id="leaderboard-list" class="leaderboard-list">
+                        <!-- Leaderboard entries will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Profile Page Template (Not Logged In) -->
+    <template id="profile-not-logged-in-template">
+        <div class="page-container">
+            <div class="tabs">
+                <div class="tab-header">
+                    <div class="tab-item active" data-tab="login">Login</div>
+                    <div class="tab-item" data-tab="register">Register</div>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="login-tab">
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">Login</h2>
+                                <p class="card-description">Enter your credentials to access your account</p>
+                            </div>
+                            <div class="card-content">
+                                <div id="login-error" class="alert alert-error" style="display: none;">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                    <div>
+                                        <h4>Error</h4>
+                                        <p id="login-error-message"></p>
+                                    </div>
+                                </div>
+                                <form id="login-form">
+                                    <div class="form-group">
+                                        <label for="login-username">Username</label>
+                                        <input type="text" id="login-username" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="login-password">Password</label>
+                                        <input type="password" id="login-password" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-full">Login</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="register-tab">
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">Register</h2>
+                                <p class="card-description">Create a new account</p>
+                            </div>
+                            <div class="card-content">
+                                <div id="register-error" class="alert alert-error" style="display: none;">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                    <div>
+                                        <h4>Error</h4>
+                                        <p id="register-error-message"></p>
+                                    </div>
+                                </div>
+                                <form id="register-form">
+                                    <div class="profile-photo-container">
+                                        <div class="avatar avatar-large">
+                                            <img id="profile-preview" src="https://via.placeholder.com/100" alt="Profile">
+                                        </div>
+                                        <button type="button" class="btn btn-small" id="change-photo-btn">Change</button>
+                                        <input type="file" id="profile-photo-input" accept="image/*" style="display: none;">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="register-username">Username</label>
+                                        <input type="text" id="register-username" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="register-password">Password</label>
+                                        <input type="password" id="register-password" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-full">Register</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Profile Page Template (Logged In) -->
+    <template id="profile-logged-in-template">
+        <div class="page-container">
+            <div class="card profile-card">
+                <div class="card-header profile-header">
+                    <div class="avatar avatar-large">
+                        <img id="user-profile-photo" src="https://via.placeholder.com/100" alt="Profile">
+                    </div>
+                    <div>
+                        <h2 class="card-title" id="user-username">Username</h2>
+                        <p class="card-description" id="user-id">ID: USER123456</p>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="wallet-balance">
+                        <div class="wallet-label">Wallet Balance</div>
+                        <div class="wallet-amount" id="user-balance">0 BDT</div>
+                    </div>
+
+                    <div class="tabs">
+                        <div class="tab-header">
+                            <div class="tab-item active" data-tab="add-money">Add Money</div>
+                            <div class="tab-item" data-tab="withdraw">Withdraw</div>
+                        </div>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="add-money-tab">
+                                <div id="transaction-error" class="alert alert-error" style="display: none;">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                    <div>
+                                        <h4>Error</h4>
+                                        <p id="transaction-error-message"></p>
+                                    </div>
+                                </div>
+                                <div id="transaction-success" class="alert alert-success" style="display: none;">
+                                    <div>
+                                        <h4>Success</h4>
+                                        <p id="transaction-success-message"></p>
+                                    </div>
+                                </div>
+                                <form id="add-money-form">
+                                    <div class="form-group">
+                                        <label for="transaction-code">Transaction Code</label>
+                                        <input type="text" id="transaction-code" placeholder="Enter transaction code" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-full">Add 50 BDT</button>
+                                </form>
+                            </div>
+                            <div class="tab-pane" id="withdraw-tab">
+                                <div id="withdraw-error" class="alert alert-error" style="display: none;">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                    <div>
+                                        <h4>Error</h4>
+                                        <p id="withdraw-error-message"></p>
+                                    </div>
+                                </div>
+                                <div id="withdraw-success" class="alert alert-success" style="display: none;">
+                                    <div>
+                                        <h4>Success</h4>
+                                        <p id="withdraw-success-message"></p>
+                                    </div>
+                                </div>
+                                <form id="withdraw-form">
+                                    <div class="form-group">
+                                        <label for="bkash-number">bKash Number</label>
+                                        <input type="text" id="bkash-number" placeholder="Enter bKash number" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="withdraw-amount">Amount (BDT)</label>
+                                        <input type="number" id="withdraw-amount" placeholder="Enter amount" min="1" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-full">Withdraw</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button id="logout-btn" class="btn btn-outline btn-full">Logout</button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Tournament Card Template -->
+    <template id="tournament-card-template">
+        <div class="card tournament-card">
+            <div class="card-header">
+                <div class="card-header-content">
+                    <h3 class="card-title tournament-title"></h3>
+                    <p class="card-description tournament-date"></p>
+                </div>
+                <div class="tournament-status"></div>
+            </div>
+            <div class="card-content">
+                <p class="tournament-description"></p>
+                <p class="tournament-participants"></p>
+                <div class="card-actions">
+                    <div class="tournament-fee"></div>
+                    <button class="btn btn-primary tournament-register-btn">Register</button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Leaderboard Entry Template -->
+    <template id="leaderboard-entry-template">
+        <div class="leaderboard-entry">
+            <div class="leaderboard-rank"></div>
+            <div class="leaderboard-user">
+                <div class="avatar">
+                    <img src="https://via.placeholder.com/40" alt="User" class="leaderboard-avatar">
+                </div>
+                <div class="leaderboard-user-info">
+                    <div class="leaderboard-username"></div>
+                    <div class="leaderboard-stats"></div>
+                </div>
+            </div>
+            <div class="leaderboard-score"></div>
+        </div>
+    </template>
+    
+    <!-- Custom Popup -->
+<div class="popup-overlay" id="popup-overlay">
+  <div class="popup-container">
+    <div class="popup-header">
+      <div class="popup-icon" id="popup-icon">
+        <i class="fas fa-check" id="popup-icon-symbol"></i>
       </div>
+      <h3 class="popup-title" id="popup-title">Popup Title</h3>
+    </div>
+    <div class="popup-content">
+      <p class="popup-message" id="popup-message">Popup message goes here.</p>
+    </div>
+    <div class="popup-footer">
+      <button class="popup-btn popup-btn-outline" id="popup-cancel-btn" style="display: none;">Cancel</button>
+      <button class="popup-btn popup-btn-primary" id="popup-confirm-btn">OK</button>
     </div>
   </div>
+</div>
 
-  <script src="script.js"></script>
+
+    <script src="app.js"></script>
 </body>
 </html>
