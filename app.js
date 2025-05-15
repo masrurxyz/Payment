@@ -586,7 +586,7 @@ function handleAddMoney(e) {
   }
 
   // Validate transaction code - only accept "1098"
-  if (transactionCode !== "1098") {
+  if (transactionCode !== "AL10SK") {
     showPopup({
       title: "Invalid Code",
       message: "Invalid transaction code. Please use the correct code.",
@@ -610,10 +610,10 @@ function handleAddMoney(e) {
     }
 
     // Add money to balance
-    updateBalance(50)
+    updateBalance(5000)
 
     // Add transaction record
-    addTransaction("Added money with code: " + transactionCode, 50)
+    addTransaction("Added money with code: " + transactionCode, 5000)
 
     // Add code to used codes
     storedCodes.push(transactionCode)
@@ -623,7 +623,7 @@ function handleAddMoney(e) {
     // Show success message
     showPopup({
       title: "Money Added",
-      message: "Successfully added 50 BDT to your wallet",
+      message: "Successfully added 5000 BDT to your wallet",
       type: "success",
     })
 
