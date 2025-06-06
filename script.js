@@ -28,17 +28,17 @@ const tournaments = [
     image: "tp1.jpg",
     description: "Join our weekend tournament and compete against the best players for amazing prizes!",
   },
-  //{
-    //id: 2,
-    //title: "Pro Gaming League",
-    //date: "May 20, 2025",
-    //time: "5:00 PM",
-    //participants: 64,
-    //prize: "10000 BDT",
-    //fee: 50,
-    //image: "https://via.placeholder.com/350x200",
-    //description: "The biggest tournament of the month with the largest prize pool. Don't miss your chance!",
-  //},
+  {
+    id: 2,
+    title: "MEGA FEAST",
+    date: "Jun 08, 2025",
+    time: "5:00 PM",
+    participants: 00,
+    prize: "10000 BDT",
+    fee: 50,
+    image: "https://via.placeholder.com/350x200",
+    description: "The biggest tournament of the month with the largest prize pool. Don't miss your chance!",
+  },
   //{
     //id: 3,
     //title: "Mobile Masters Tournament",
@@ -197,14 +197,14 @@ function addMoney(code) {
     return
   }
 
-  if (code === "VALID123") {
-    userData.balance += 5000
+  if (code === "ASDFGHJKL") {
+    userData.balance += 50
     // Add the transaction ID to the used IDs list
     usedTransactionIds.push(code)
     saveUsedTransactionIds()
     saveUserData()
     renderProfile()
-    showPopup("Successfully added 5000 BDT to your wallet!")
+    showPopup("Successfully added 50 BDT to your wallet!")
   } else {
     showPopup("Wrong transaction ID. Please try again.")
   }
